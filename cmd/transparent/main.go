@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"transparent/pkg/checker"
+	"transparent/pkg/metrics"
 	"transparent/pkg/reporter"
 	"transparent/pkg/state"
 )
@@ -95,7 +96,8 @@ func main() {
 
 	doCommit := func() {
 		events := store.GetEvents()
-		md := reporter.GenerateMarkdown(events)
+		metricsData := metrics.Collect(ctx, "/work")
+		md := reporter.GenerateMarkdown(events, metricsData)
 		slog.Info("generating markdown and committing")
 		err := reporter.CommitAndPush(ctx, *repoPath, *repoPath+"/uptime.md", md)
 		if err != nil {

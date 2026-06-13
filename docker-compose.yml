@@ -5,10 +5,10 @@ services:
     build: .
     restart: unless-stopped
     volumes:
-      # Mount the local project repo into /data so the service can git push
       - .:/data
-      # Mount SSH keys so git can authenticate with GitHub
       - ~/.ssh:/root/.ssh:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ~/work:/work:ro
     environment:
       - TZ=UTC
     expose:

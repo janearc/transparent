@@ -10,7 +10,7 @@ RUN go build -o transparent cmd/transparent/main.go
 
 FROM alpine:latest
 
-RUN apk add --no-cache git openssh-client tzdata
+RUN apk add --no-cache git openssh-client tzdata docker-cli
 
 WORKDIR /app
 COPY --from=builder /app/transparent .
