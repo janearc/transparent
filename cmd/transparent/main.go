@@ -11,11 +11,11 @@ import (
 	"strings"
 	"syscall"
 	"time"
-
 	"transparent/pkg/checker"
 	"transparent/pkg/metrics"
 	"transparent/pkg/reporter"
 	"transparent/pkg/state"
+	"transparent/pkg/telemetry"
 )
 
 func main() {
@@ -45,6 +45,7 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, `{"status":"ok"}`)
 	})
+	mux.HandleFunc("GET /metrics", telemetry.Handler())
 	server := &http.Server{
 		Addr:    ":8080",
 		Handler: mux,
@@ -75,6 +76,7 @@ func main() {
 	slog.Info("transparent daemon started", "pollInterval", pollInterval, "commitInterval", commitInterval, "immediate", *immediate)
 
 	doPoll := func() {
+		telemetry.Inc("transparent_polls_total")
 		now := time.Now()
 		elapsed := now.Sub(lastTick)
 
@@ -103,6 +105,7 @@ func main() {
 	}
 
 	doCommit := func() {
+		telemetry.Inc("transparent_commits_total")
 		events := store.GetEvents()
 		metricsData := metrics.Collect(ctx, "/work")
 		err := reporter.GenerateDashboard(*repoPath+"/REPORT", events, metricsData, store)
