@@ -4,10 +4,17 @@
 
 ## Active Services & Codebases
 
+### 🐳 `delightd`
+* **Git:** branch `main`, 3 total commits
+* **Services:**
+  - `delightd-delightd-1` (`delightd-delightd`) - **Up 5 minutes**
+    * Uptime:<br>![Uptime](delightd-delightd-1_uptime.svg)
+    * Churn:<br>![Churn](delightd-delightd-1_churn.svg)
+
 ### 🐳 `la-domestique`
 * **Git:** branch `main` [dirty], 125 total commits
 * **Services:**
-  - `la-domestique-web-1` (`la-domestique-web`) - **Up 5 minutes**
+  - `la-domestique-web-1` (`la-domestique-web`) - **Up About a minute**
     * Uptime:<br>![Uptime](la-domestique-web-1_uptime.svg)
     * Churn:<br>![Churn](la-domestique-web-1_churn.svg)
 
@@ -28,9 +35,9 @@
     * Churn:<br>![Churn](odysseus-ntfy-1_churn.svg)
 
 ### 🐳 `transparent`
-* **Git:** branch `fix/dashboard-metrics` [dirty], 15 total commits
+* **Git:** branch `fix/dashboard-metrics` [dirty], 16 total commits
 * **Services:**
-  - `transparent-transparent-1` (`transparent-transparent`) - **Up 13 seconds**
+  - `transparent-transparent-1` (`transparent-transparent`) - **Up 11 seconds**
     * Uptime:<br>![Uptime](transparent-transparent-1_uptime.svg)
     * Churn:<br>![Churn](transparent-transparent-1_churn.svg)
 
