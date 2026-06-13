@@ -11,8 +11,8 @@ services:
       - ~/.ssh:/root/.ssh:ro
     environment:
       - TZ=UTC
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.transparent.rule=Host(`transparent.localhost`)"
