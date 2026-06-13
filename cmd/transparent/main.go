@@ -12,12 +12,14 @@ import (
 	"time"
 
 	"transparent/pkg/checker"
+	"transparent/pkg/metrics"
 	"transparent/pkg/reporter"
 	"transparent/pkg/state"
 )
 
 func main() {
 	repoPath := flag.String("repo", ".", "Path to the git repository")
+	immediate := flag.Bool("immediate", false, "execute an immediate evaluation on startup")
 	flag.Parse()
 
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
@@ -69,7 +71,7 @@ func main() {
 	commitTicker := time.NewTicker(commitInterval)
 	defer commitTicker.Stop()
 
-	slog.Info("transparent daemon started", "pollInterval", pollInterval, "commitInterval", commitInterval)
+	slog.Info("transparent daemon started", "pollInterval", pollInterval, "commitInterval", commitInterval, "immediate", *immediate)
 
 	doPoll := func() {
 		now := time.Now()
@@ -94,7 +96,8 @@ func main() {
 
 	doCommit := func() {
 		events := store.GetEvents()
-		md := reporter.GenerateMarkdown(events)
+		metricsData := metrics.Collect(ctx, "/work")
+		md := reporter.GenerateMarkdown(events, metricsData)
 		slog.Info("generating markdown and committing")
 		err := reporter.CommitAndPush(ctx, *repoPath, *repoPath+"/uptime.md", md)
 		if err != nil {
@@ -104,9 +107,11 @@ func main() {
 		}
 	}
 
-	// Do an immediate poll and commit attempt on startup
-	doPoll()
-	doCommit()
+	if *immediate {
+		slog.Info("executing immediate startup evaluation")
+		doPoll()
+		doCommit()
+	}
 
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
