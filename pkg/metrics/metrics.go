@@ -8,71 +8,99 @@ import (
 	"time"
 )
 
-type DashboardData struct {
-	Containers []string
-	GitStats   []string
+type ServiceInfo struct {
+	Name   string
+	Image  string
+	Status string
 }
 
-// Collect gathers running docker containers and git repository statuses.
+type RepoMetrics struct {
+	Name     string
+	Branch   string
+	Dirty    bool
+	Commits  string
+	Services []ServiceInfo
+}
+
+type DashboardData struct {
+	Repos []RepoMetrics
+}
+
 func Collect(ctx context.Context, workDir string) DashboardData {
-	// Give metrics collection a strict timeout
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 
 	var data DashboardData
 
-	// Get Docker containers via local socket
-	cmd := exec.CommandContext(ctx, "docker", "ps", "--format", "- `{{.Names}}` ({{.Image}})")
+	cmd := exec.CommandContext(ctx, "docker", "ps", "--format", "{{.Names}}|{{.Image}}|{{.Status}}")
 	out, err := cmd.Output()
+	var allServices []ServiceInfo
 	if err == nil {
 		lines := strings.Split(strings.TrimSpace(string(out)), "\n")
 		for _, l := range lines {
-			if l != "" && l != "- `` ()" {
-				data.Containers = append(data.Containers, l)
+			parts := strings.Split(l, "|")
+			if len(parts) >= 3 {
+				allServices = append(allServices, ServiceInfo{
+					Name:   parts[0],
+					Image:  parts[1],
+					Status: strings.Join(parts[2:], "|"),
+				})
 			}
 		}
-	} else {
-		data.Containers = append(data.Containers, "_(Docker daemon unreachable)_")
 	}
 
-	// Get Git metrics from workDir by scanning 1 level deep for .git
 	dirs, err := filepath.Glob(filepath.Join(workDir, "*", ".git"))
 	if err == nil {
 		for _, gitDir := range dirs {
 			repoPath := filepath.Dir(gitDir)
 			repoName := filepath.Base(repoPath)
 
-			// Check if it has any commits
+			var repoServices []ServiceInfo
+			for _, s := range allServices {
+				// Check if container name is related to the repo
+				safeRepoName := strings.ReplaceAll(repoName, "-", "") // docker compose sometimes strips hyphens
+				if strings.HasPrefix(s.Name, repoName+"-") || strings.HasPrefix(s.Name, safeRepoName+"-") {
+					repoServices = append(repoServices, s)
+				} else if repoName == "traefik" && strings.Contains(s.Name, "traefik") {
+					repoServices = append(repoServices, s)
+				}
+			}
+
+			// If a repository does not have a running service, do not include it.
+			if len(repoServices) == 0 {
+				continue
+			}
+
+			rm := RepoMetrics{
+				Name:     repoName,
+				Services: repoServices,
+				Commits:  "0",
+			}
+
 			cmd := exec.CommandContext(ctx, "git", "-C", repoPath, "rev-parse", "--abbrev-ref", "HEAD")
 			branchOut, err := cmd.Output()
-			if err != nil {
-				continue
-			}
-			branch := strings.TrimSpace(string(branchOut))
-			if branch == "" {
-				continue
+			if err == nil {
+				rm.Branch = strings.TrimSpace(string(branchOut))
 			}
 
-			// Check dirty state
 			cmd = exec.CommandContext(ctx, "git", "-C", repoPath, "status", "--porcelain")
-			statusOut, _ := cmd.Output()
-			dirty := ""
-			if len(strings.TrimSpace(string(statusOut))) > 0 {
-				dirty = " [dirty]"
+			statusOut, err := cmd.Output()
+			if err == nil && len(strings.TrimSpace(string(statusOut))) > 0 {
+				rm.Dirty = true
 			}
 
-			// Check commits in last 24h
-			cmd = exec.CommandContext(ctx, "git", "-C", repoPath, "rev-list", "--count", "--since=24h", "HEAD")
-			commitsOut, _ := cmd.Output()
-			commits := strings.TrimSpace(string(commitsOut))
-			if commits == "" {
-				commits = "0"
+			// Correct format for 24h: "1 day ago"
+			cmd = exec.CommandContext(ctx, "git", "-C", repoPath, "rev-list", "--count", "--since=1 day ago", "HEAD")
+			commitsOut, err := cmd.Output()
+			if err == nil {
+				commitsStr := strings.TrimSpace(string(commitsOut))
+				if commitsStr != "" {
+					rm.Commits = commitsStr
+				}
 			}
 
-			data.GitStats = append(data.GitStats, "- `"+repoName+"` (branch: "+branch+dirty+", 24h commits: "+commits+")")
+			data.Repos = append(data.Repos, rm)
 		}
-	} else {
-		data.GitStats = append(data.GitStats, "_(Could not scan git repositories)_")
 	}
 
 	return data
