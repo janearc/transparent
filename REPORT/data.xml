@@ -3,35 +3,41 @@
   <repos>
     <repo>
       <name>delightd</name>
+      <remoteURL></remoteURL>
       <branch>main</branch>
       <dirty>false</dirty>
       <commits>3</commits>
+      <recentPRs>0</recentPRs>
       <services>
         <service>
           <name>delightd-delightd-1</name>
           <image>delightd-delightd</image>
-          <status>Up 5 minutes</status>
+          <status>Up 13 minutes</status>
         </service>
       </services>
     </repo>
     <repo>
       <name>la-domestique</name>
+      <remoteURL>https://github.com/janearc/la-domestique</remoteURL>
       <branch>main</branch>
       <dirty>true</dirty>
       <commits>125</commits>
+      <recentPRs>0</recentPRs>
       <services>
         <service>
           <name>la-domestique-web-1</name>
           <image>la-domestique-web</image>
-          <status>Up About a minute</status>
+          <status>Up 9 minutes</status>
         </service>
       </services>
     </repo>
     <repo>
       <name>odysseus</name>
+      <remoteURL>https://github.com/pewdiepie-archdaemon/odysseus</remoteURL>
       <branch>dev</branch>
       <dirty>true</dirty>
       <commits>1150</commits>
+      <recentPRs>0</recentPRs>
       <services>
         <service>
           <name>odysseus-odysseus-1</name>
@@ -57,14 +63,16 @@
     </repo>
     <repo>
       <name>transparent</name>
+      <remoteURL></remoteURL>
       <branch>fix/dashboard-metrics</branch>
       <dirty>true</dirty>
-      <commits>16</commits>
+      <commits>17</commits>
+      <recentPRs>1</recentPRs>
       <services>
         <service>
           <name>transparent-transparent-1</name>
           <image>transparent-transparent</image>
-          <status>Up 11 seconds</status>
+          <status>Up 12 seconds</status>
         </service>
       </services>
     </repo>

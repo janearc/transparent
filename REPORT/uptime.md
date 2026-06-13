@@ -5,21 +5,21 @@
 ## Active Services & Codebases
 
 ### 🐳 `delightd`
-* **Git:** branch `main`, 3 total commits
+* **Git:** branch `main`, 3 total commits, 0 PRs landed in last 24h
 * **Services:**
-  - `delightd-delightd-1` (`delightd-delightd`) - **Up 5 minutes**
+  - `delightd-delightd-1` (`delightd-delightd`) - **Up 13 minutes**
     * Uptime:<br>![Uptime](delightd-delightd-1_uptime.svg)
     * Churn:<br>![Churn](delightd-delightd-1_churn.svg)
 
-### 🐳 `la-domestique`
-* **Git:** branch `main` [dirty], 125 total commits
+### 🐳 [la-domestique](https://github.com/janearc/la-domestique)
+* **Git:** branch `main` [dirty], 125 total commits, 0 PRs landed in last 24h
 * **Services:**
-  - `la-domestique-web-1` (`la-domestique-web`) - **Up About a minute**
+  - `la-domestique-web-1` (`la-domestique-web`) - **Up 9 minutes**
     * Uptime:<br>![Uptime](la-domestique-web-1_uptime.svg)
     * Churn:<br>![Churn](la-domestique-web-1_churn.svg)
 
-### 🐳 `odysseus`
-* **Git:** branch `dev` [dirty], 1150 total commits
+### 🐳 [odysseus](https://github.com/pewdiepie-archdaemon/odysseus)
+* **Git:** branch `dev` [dirty], 1150 total commits, 0 PRs landed in last 24h
 * **Services:**
   - `odysseus-odysseus-1` (`odysseus-odysseus`) - **Up 2 hours**
     * Uptime:<br>![Uptime](odysseus-odysseus-1_uptime.svg)
@@ -35,9 +35,9 @@
     * Churn:<br>![Churn](odysseus-ntfy-1_churn.svg)
 
 ### 🐳 `transparent`
-* **Git:** branch `fix/dashboard-metrics` [dirty], 16 total commits
+* **Git:** branch `fix/dashboard-metrics` [dirty], 17 total commits, 1 PRs landed in last 24h
 * **Services:**
-  - `transparent-transparent-1` (`transparent-transparent`) - **Up 11 seconds**
+  - `transparent-transparent-1` (`transparent-transparent`) - **Up 12 seconds**
     * Uptime:<br>![Uptime](transparent-transparent-1_uptime.svg)
     * Churn:<br>![Churn](transparent-transparent-1_churn.svg)
 
