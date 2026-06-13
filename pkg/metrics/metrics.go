@@ -4,8 +4,12 @@ import (
 	"context"
 	"os/exec"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
+
+	"github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5/plumbing/object"
 )
 
 type ServiceInfo struct {
@@ -26,6 +30,7 @@ type DashboardData struct {
 	Repos []RepoMetrics
 }
 
+// Collect gathers running docker containers and uses native go-git to fetch git repository statuses.
 func Collect(ctx context.Context, workDir string) DashboardData {
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
@@ -57,8 +62,7 @@ func Collect(ctx context.Context, workDir string) DashboardData {
 
 			var repoServices []ServiceInfo
 			for _, s := range allServices {
-				// Check if container name is related to the repo
-				safeRepoName := strings.ReplaceAll(repoName, "-", "") // docker compose sometimes strips hyphens
+				safeRepoName := strings.ReplaceAll(repoName, "-", "")
 				if strings.HasPrefix(s.Name, repoName+"-") || strings.HasPrefix(s.Name, safeRepoName+"-") {
 					repoServices = append(repoServices, s)
 				} else if repoName == "traefik" && strings.Contains(s.Name, "traefik") {
@@ -66,7 +70,6 @@ func Collect(ctx context.Context, workDir string) DashboardData {
 				}
 			}
 
-			// If a repository does not have a running service, do not include it.
 			if len(repoServices) == 0 {
 				continue
 			}
@@ -77,25 +80,32 @@ func Collect(ctx context.Context, workDir string) DashboardData {
 				Commits:  "0",
 			}
 
-			cmd := exec.CommandContext(ctx, "git", "-C", repoPath, "rev-parse", "--abbrev-ref", "HEAD")
-			branchOut, err := cmd.Output()
-			if err == nil {
-				rm.Branch = strings.TrimSpace(string(branchOut))
+			r, err := git.PlainOpen(repoPath)
+			if err != nil {
+				continue
 			}
 
-			cmd = exec.CommandContext(ctx, "git", "-C", repoPath, "status", "--porcelain")
-			statusOut, err := cmd.Output()
-			if err == nil && len(strings.TrimSpace(string(statusOut))) > 0 {
-				rm.Dirty = true
+			head, err := r.Head()
+			if err == nil {
+				rm.Branch = head.Name().Short()
+				
+				since := time.Now().Add(-24 * time.Hour)
+				cIter, err := r.Log(&git.LogOptions{From: head.Hash(), Since: &since})
+				count := 0
+				if err == nil {
+					cIter.ForEach(func(c *object.Commit) error {
+						count++
+						return nil
+					})
+					rm.Commits = strconv.Itoa(count)
+				}
 			}
 
-			// Correct format for 24h: "1 day ago"
-			cmd = exec.CommandContext(ctx, "git", "-C", repoPath, "rev-list", "--count", "--since=1 day ago", "HEAD")
-			commitsOut, err := cmd.Output()
+			w, err := r.Worktree()
 			if err == nil {
-				commitsStr := strings.TrimSpace(string(commitsOut))
-				if commitsStr != "" {
-					rm.Commits = commitsStr
+				status, err := w.Status()
+				if err == nil && !status.IsClean() {
+					rm.Dirty = true
 				}
 			}
 

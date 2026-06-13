@@ -5,10 +5,14 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"os/exec"
+	"time"
 
 	"transparent/pkg/metrics"
 	"transparent/pkg/state"
+
+	"github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5/plumbing/object"
+	"github.com/go-git/go-git/v5/plumbing/transport/ssh"
 )
 
 // GenerateMarkdown creates the markdown representation of the dashboard.
@@ -16,7 +20,6 @@ func GenerateMarkdown(events []state.Event, metricsData metrics.DashboardData) s
 	var buf bytes.Buffer
 	buf.WriteString("# Local Environment Dashboard\n\n")
 
-	// Calculate single-line host uptime summary
 	outages := 0
 	for _, e := range events {
 		if e.Status == state.StatusAsleep || e.Status == state.StatusOffline {
@@ -59,28 +62,60 @@ func GenerateMarkdown(events []state.Event, metricsData metrics.DashboardData) s
 	return buf.String()
 }
 
-// CommitAndPush writes the markdown, commits it, and pushes to git.
+// CommitAndPush writes the markdown, commits it, and pushes to git natively.
 func CommitAndPush(ctx context.Context, repoPath string, markdownPath string, markdownContent string) error {
 	if err := os.WriteFile(markdownPath, []byte(markdownContent), 0644); err != nil {
 		return err
 	}
 
-	cmd := exec.CommandContext(ctx, "git", "add", markdownPath)
-	cmd.Dir = repoPath
-	if err := cmd.Run(); err != nil {
+	r, err := git.PlainOpen(repoPath)
+	if err != nil {
+		return fmt.Errorf("failed to open repo: %w", err)
+	}
+
+	w, err := r.Worktree()
+	if err != nil {
+		return fmt.Errorf("failed to access worktree: %w", err)
+	}
+
+	_, err = w.Add("uptime.md")
+	if err != nil {
 		return fmt.Errorf("git add failed: %w", err)
 	}
 
-	cmd = exec.CommandContext(ctx, "git", "commit", "-m", "chore: update uptime dashboard")
-	cmd.Dir = repoPath
-	if err := cmd.Run(); err != nil {
-		// git commit fails if there are no changes, which is fine
+	status, err := w.Status()
+	if err != nil {
+		return err
+	}
+
+	if status.IsClean() {
 		return nil
 	}
 
-	cmd = exec.CommandContext(ctx, "git", "push")
-	cmd.Dir = repoPath
-	cmd.Run()
+	_, err = w.Commit("chore: update uptime dashboard", &git.CommitOptions{
+		Author: &object.Signature{
+			Name:  "Transparent Daemon",
+			Email: "transparent@local",
+			When:  time.Now(),
+		},
+	})
+	if err != nil {
+		return fmt.Errorf("git commit failed: %w", err)
+	}
+
+	var auth *ssh.PublicKeys
+	auth, err = ssh.NewPublicKeysFromFile("git", "/root/.ssh/id_ed25519", "")
+	if err != nil {
+		auth, _ = ssh.NewPublicKeysFromFile("git", "/root/.ssh/id_rsa", "")
+	}
+
+	err = r.PushContext(ctx, &git.PushOptions{
+		Auth: auth,
+	})
+	if err != nil && err != git.ErrNonFastForwardUpdate {
+		// Suppress network errors
+		return nil
+	}
 
 	return nil
 }
