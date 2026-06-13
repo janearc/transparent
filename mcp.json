@@ -1,16 +1,16 @@
 {
   "tools": [
     {
-      "name": "transparent_get_fleet_status",
-      "description": "Returns the live markdown dashboard of the entire fleet's uptime, code churn, and PR status.",
+      "name": "get_fleet_status",
+      "description": "Returns the live markdown dashboard of the entire fleet uptime, code churn, and PR status.",
       "inputSchema": {
         "type": "object",
         "properties": {}
       },
       "handler": {
-        "type": "internal",
+        "type": "http",
         "method": "GET",
-        "url": "http://localhost:8080/dashboard"
+        "url": "http://localhost:8081/dashboard"
       }
     }
   ]
