@@ -13,6 +13,7 @@ services:
       - TZ=UTC
     expose:
       - "8080"
+    command: ["./transparent", "-repo", "/data", "-immediate"]
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.transparent.rule=Host(`transparent.localhost`)"
