@@ -310,6 +310,9 @@ func makeChurnSVG(timestamps []time.Time) string {
 }
 
 // CommitDashboard commits the REPORT dir locally without pushing.
+const daemonCommitMsg = "chore: update uptime dashboard and exported formats"
+const daemonAuthorEmail = "transparent@local"
+
 func CommitDashboard(ctx context.Context, repoPath string) error {
 	r, err := git.PlainOpen(repoPath)
 	if err != nil {
@@ -335,10 +338,35 @@ func CommitDashboard(ctx context.Context, repoPath string) error {
 		return nil
 	}
 
-	_, err = w.Commit("chore: update uptime dashboard and exported formats", &git.CommitOptions{
+	// If HEAD is a previous daemon commit, soft-reset to its parent so we
+	// effectively amend it — keeping REPORT/ as a single living tip commit.
+	head, err := r.Head()
+	if err == nil {
+		headCommit, err := r.CommitObject(head.Hash())
+		if err == nil &&
+			headCommit.Author.Email == daemonAuthorEmail &&
+			headCommit.Message == daemonCommitMsg &&
+			len(headCommit.ParentHashes) == 1 {
+
+			err = w.Reset(&git.ResetOptions{
+				Commit: headCommit.ParentHashes[0],
+				Mode:   git.SoftReset,
+			})
+			if err != nil {
+				return fmt.Errorf("soft reset failed: %w", err)
+			}
+
+			// Re-stage REPORT after the reset
+			if _, err = w.Add("REPORT"); err != nil {
+				return fmt.Errorf("git add after reset failed: %w", err)
+			}
+		}
+	}
+
+	_, err = w.Commit(daemonCommitMsg, &git.CommitOptions{
 		Author: &object.Signature{
 			Name:  "Transparent Daemon",
-			Email: "transparent@local",
+			Email: daemonAuthorEmail,
 			When:  time.Now(),
 		},
 	})
