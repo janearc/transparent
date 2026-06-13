@@ -11,6 +11,8 @@ services:
       - ~/work:/work:ro
     environment:
       - TZ=UTC
+    ports:
+      - "127.0.0.1:8081:8080"
     expose:
       - "8080"
     command: ["./transparent", "-repo", "/data", "-immediate"]

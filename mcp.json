@@ -12,6 +12,32 @@
         "method": "GET",
         "url": "http://localhost:8081/dashboard"
       }
+    },
+    {
+      "name": "trigger_evaluation",
+      "description": "Force an immediate evaluation of the fleet metrics and commit the updated dashboard.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "handler": {
+        "type": "http",
+        "method": "POST",
+        "url": "http://localhost:8081/evaluate"
+      }
+    },
+    {
+      "name": "get_raw_metrics",
+      "description": "Return the raw prometheus text payload of the daemon internal metrics.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "handler": {
+        "type": "http",
+        "method": "GET",
+        "url": "http://localhost:8081/metrics"
+      }
     }
   ]
 }
