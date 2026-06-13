@@ -5,19 +5,19 @@
 ## Active Services & Codebases
 
 ### 🐳 `delightd`
-* **Git:** branch `main` [dirty], 4 total commits, 0 PRs landed in last 7 days
+* **Git:** branch `main` [dirty], 5 total commits, 0 PRs landed in last 7 days
 * **Services:**
-  - `delightd-delightd-1` (`delightd-delightd`) - **Up 27 minutes**
+  - `delightd-delightd-1` (`delightd-delightd`) - **Up 4 seconds**
     * Uptime:<br>![Uptime](delightd-delightd-1_uptime.svg)
     * Churn:<br>![Churn](delightd-delightd-1_churn.svg)
 
 ### 🐳 [la-domestique](https://github.com/janearc/la-domestique)
 * **Git:** branch `main` [dirty], 125 total commits, 0 PRs landed in last 7 days
 * **Services:**
-  - `la-domestique-web-1` (`la-domestique-web`) - **Up 2 hours**
+  - `la-domestique-web-1` (`la-domestique-web`) - **Up 3 hours**
     * Uptime:<br>![Uptime](la-domestique-web-1_uptime.svg)
     * Churn:<br>![Churn](la-domestique-web-1_churn.svg)
-  - `la-domestique-geometry-engine-1` (`la-domestique-geometry-engine`) - **Up 3 hours (healthy)**
+  - `la-domestique-geometry-engine-1` (`la-domestique-geometry-engine`) - **Up 4 hours (healthy)**
     * Uptime:<br>![Uptime](la-domestique-geometry-engine-1_uptime.svg)
     * Churn:<br>![Churn](la-domestique-geometry-engine-1_churn.svg)
 
@@ -38,9 +38,9 @@
     * Churn:<br>![Churn](odysseus-ntfy-1_churn.svg)
 
 ### 🐳 `transparent`
-* **Git:** branch `docpatch`, 29 total commits, 1 PRs landed in last 7 days
+* **Git:** branch `feat/telemetry-hooks` [dirty], 32 total commits, 1 PRs landed in last 7 days
 * **Services:**
-  - `transparent-transparent-1` (`transparent-transparent`) - **Up 3 hours**
+  - `transparent-transparent-1` (`transparent-transparent`) - **Up 15 seconds**
     * Uptime:<br>![Uptime](transparent-transparent-1_uptime.svg)
     * Churn:<br>![Churn](transparent-transparent-1_churn.svg)
 

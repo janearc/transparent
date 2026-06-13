@@ -6,7 +6,7 @@
       <remoteURL></remoteURL>
       <branch>main</branch>
       <dirty>true</dirty>
-      <commits>4</commits>
+      <commits>5</commits>
       <recentPRs>0</recentPRs>
       <unpushed>0</unpushed>
       <openPRs>-1</openPRs>
@@ -14,7 +14,7 @@
         <service>
           <name>delightd-delightd-1</name>
           <image>delightd-delightd</image>
-          <status>Up 27 minutes</status>
+          <status>Up 4 seconds</status>
         </service>
       </services>
     </repo>
@@ -31,12 +31,12 @@
         <service>
           <name>la-domestique-web-1</name>
           <image>la-domestique-web</image>
-          <status>Up 2 hours</status>
+          <status>Up 3 hours</status>
         </service>
         <service>
           <name>la-domestique-geometry-engine-1</name>
           <image>la-domestique-geometry-engine</image>
-          <status>Up 3 hours (healthy)</status>
+          <status>Up 4 hours (healthy)</status>
         </service>
       </services>
     </repo>
@@ -75,9 +75,9 @@
     <repo>
       <name>transparent</name>
       <remoteURL></remoteURL>
-      <branch>docpatch</branch>
-      <dirty>false</dirty>
-      <commits>29</commits>
+      <branch>feat/telemetry-hooks</branch>
+      <dirty>true</dirty>
+      <commits>32</commits>
       <recentPRs>1</recentPRs>
       <unpushed>0</unpushed>
       <openPRs>-1</openPRs>
@@ -85,7 +85,7 @@
         <service>
           <name>transparent-transparent-1</name>
           <image>transparent-transparent</image>
-          <status>Up 3 hours</status>
+          <status>Up 15 seconds</status>
         </service>
       </services>
     </repo>
