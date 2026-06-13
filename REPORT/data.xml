@@ -8,11 +8,13 @@
       <dirty>false</dirty>
       <commits>3</commits>
       <recentPRs>0</recentPRs>
+      <unpushed>0</unpushed>
+      <openPRs>-1</openPRs>
       <services>
         <service>
           <name>delightd-delightd-1</name>
           <image>delightd-delightd</image>
-          <status>Up 13 minutes</status>
+          <status>Up 19 minutes</status>
         </service>
       </services>
     </repo>
@@ -23,11 +25,13 @@
       <dirty>true</dirty>
       <commits>125</commits>
       <recentPRs>0</recentPRs>
+      <unpushed>0</unpushed>
+      <openPRs>-1</openPRs>
       <services>
         <service>
           <name>la-domestique-web-1</name>
           <image>la-domestique-web</image>
-          <status>Up 9 minutes</status>
+          <status>Up 15 minutes</status>
         </service>
       </services>
     </repo>
@@ -38,6 +42,8 @@
       <dirty>true</dirty>
       <commits>1150</commits>
       <recentPRs>0</recentPRs>
+      <unpushed>0</unpushed>
+      <openPRs>30</openPRs>
       <services>
         <service>
           <name>odysseus-odysseus-1</name>
@@ -66,13 +72,15 @@
       <remoteURL></remoteURL>
       <branch>fix/dashboard-metrics</branch>
       <dirty>true</dirty>
-      <commits>17</commits>
+      <commits>18</commits>
       <recentPRs>1</recentPRs>
+      <unpushed>0</unpushed>
+      <openPRs>-1</openPRs>
       <services>
         <service>
           <name>transparent-transparent-1</name>
           <image>transparent-transparent</image>
-          <status>Up 12 seconds</status>
+          <status>Up 15 seconds</status>
         </service>
       </services>
     </repo>
