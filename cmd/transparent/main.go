@@ -46,6 +46,10 @@ func main() {
 		fmt.Fprintf(w, `{"status":"ok"}`)
 	})
 	mux.HandleFunc("GET /metrics", telemetry.Handler())
+	mux.HandleFunc("GET /dashboard", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/markdown")
+		http.ServeFile(w, r, *repoPath+"/REPORT/uptime.md")
+	})
 	server := &http.Server{
 		Addr:    ":8080",
 		Handler: mux,

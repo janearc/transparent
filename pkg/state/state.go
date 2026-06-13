@@ -58,7 +58,7 @@ func (s *Store) load() error {
 		return err
 	}
 	// Try parsing into new schema. For backwards compatibility we might lose old events.
-	// But since it's just a local file, it's fine. 
+	// But since it's just a local file, it's fine.
 	// Actually, let's try mapping the old schema format to new if needed.
 	// We'll just let it fail or parse what it can.
 	var oldEvents []Event
@@ -89,7 +89,7 @@ func (s *Store) AddEvent(status EventStatus, message string) error {
 		Status:    status,
 		Message:   message,
 	})
-	
+
 	// Truncate host events older than 30 days
 	cutoff := time.Now().UTC().Add(-30 * 24 * time.Hour)
 	filtered := []Event{}

@@ -8,7 +8,7 @@ import (
 
 // Registry holds internal telemetry counters for transparent
 type Registry struct {
-	mu      sync.RWMutex
+	mu       sync.RWMutex
 	counters map[string]int64
 }
 

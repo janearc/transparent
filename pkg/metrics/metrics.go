@@ -96,7 +96,7 @@ func Collect(ctx context.Context, workDir string) DashboardData {
 			head, err := r.Head()
 			if err == nil {
 				rm.Branch = head.Name().Short()
-				
+
 				remotes, _ := r.Remotes()
 				for _, rem := range remotes {
 					if rem.Config().Name == "origin" && len(rem.Config().URLs) > 0 {
@@ -189,7 +189,7 @@ func fetchOpenPRs(remoteURL string) int {
 		return -1
 	}
 	req.Header.Set("User-Agent", "transparent-daemon")
-	
+
 	resp, err := client.Do(req)
 	if err != nil {
 		return -1
