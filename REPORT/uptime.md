@@ -7,7 +7,7 @@
 ### 🐳 `delightd`
 * **Git:** branch `main` [dirty], 5 total commits, 0 PRs landed in last 7 days
 * **Services:**
-  - `delightd-delightd-1` (`delightd-delightd`) - **Up 4 seconds**
+  - `delightd-delightd-1` (`delightd-delightd`) - **Up 16 seconds**
     * Uptime:<br>![Uptime](delightd-delightd-1_uptime.svg)
     * Churn:<br>![Churn](delightd-delightd-1_churn.svg)
 
@@ -38,9 +38,9 @@
     * Churn:<br>![Churn](odysseus-ntfy-1_churn.svg)
 
 ### 🐳 `transparent`
-* **Git:** branch `feat/telemetry-hooks` [dirty], 32 total commits, 1 PRs landed in last 7 days
+* **Git:** branch `feat/telemetry-hooks`, 34 total commits, 1 PRs landed in last 7 days
 * **Services:**
-  - `transparent-transparent-1` (`transparent-transparent`) - **Up 15 seconds**
+  - `transparent-transparent-1` (`transparent-transparent`) - **Up 17 seconds**
     * Uptime:<br>![Uptime](transparent-transparent-1_uptime.svg)
     * Churn:<br>![Churn](transparent-transparent-1_churn.svg)
 

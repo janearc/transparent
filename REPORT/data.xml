@@ -14,7 +14,7 @@
         <service>
           <name>delightd-delightd-1</name>
           <image>delightd-delightd</image>
-          <status>Up 4 seconds</status>
+          <status>Up 16 seconds</status>
         </service>
       </services>
     </repo>
@@ -76,8 +76,8 @@
       <name>transparent</name>
       <remoteURL></remoteURL>
       <branch>feat/telemetry-hooks</branch>
-      <dirty>true</dirty>
-      <commits>32</commits>
+      <dirty>false</dirty>
+      <commits>34</commits>
       <recentPRs>1</recentPRs>
       <unpushed>0</unpushed>
       <openPRs>-1</openPRs>
@@ -85,7 +85,7 @@
         <service>
           <name>transparent-transparent-1</name>
           <image>transparent-transparent</image>
-          <status>Up 15 seconds</status>
+          <status>Up 17 seconds</status>
         </service>
       </services>
     </repo>
