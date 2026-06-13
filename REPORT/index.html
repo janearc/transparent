@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transparent Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Inter', sans-serif; margin: 0; padding: 40px; }
+        .container { max-width: 900px; margin: 0 auto; background: rgba(22, 27, 34, 0.7); backdrop-filter: blur(10px); border-radius: 16px; padding: 30px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); }
+        h1 { color: #f0f6fc; font-weight: 600; margin-top: 0; }
+        h2 { color: #58a6ff; font-weight: 400; margin-top: 30px; border-bottom: 1px solid #21262d; padding-bottom: 10px; }
+        h3 { color: #f0f6fc; margin-top: 0; }
+        .repo-card { background: #161b22; border-radius: 8px; padding: 20px; margin-bottom: 20px; border: 1px solid #30363d; transition: transform 0.2s ease; }
+        .repo-card:hover { transform: translateY(-2px); border-color: #8b949e; }
+        .service-list { list-style: none; padding: 0; margin: 0; }
+        .service-item { background: #0d1117; margin-bottom: 15px; padding: 15px; border-radius: 6px; border: 1px solid #21262d; }
+        .graphs { display: flex; gap: 20px; margin-top: 15px; flex-wrap: wrap; }
+        .graph-box { flex: 1; min-width: 250px; background: rgba(255, 255, 255, 0.02); padding: 12px; border-radius: 8px; }
+        .graph-title { font-size: 11px; color: #8b949e; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; background: #238636; color: #ffffff; margin-left: 10px; }
+        .status-badge.down { background: #da3633; }
+        img { display: block; max-width: 100%; height: auto; }
+        .meta-text { color: #8b949e; font-size: 14px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+<h1>Environment Dashboard</h1><p class="meta-text"><strong>Host Connectivity:</strong> Online (0 historical outages recorded)</p><h2>Active Services & Codebases</h2><div class="repo-card"><h3>🐳 delightd</h3><p class="meta-text"><strong>Git:</strong> branch <code>main</code> &middot; 3 total commits &middot; <strong>0 PRs landed in last 7 days</strong></p><ul class="service-list"><li class="service-item"><strong>delightd-delightd-1</strong> <code style="margin-left: 8px; color: #8b949e;">delightd-delightd</code> <span class="status-badge">Up 53 minutes</span>
+                <div class="graphs">
+                    <div class="graph-box"><div class="graph-title">Uptime (Last 7 days)</div><img src="delightd-delightd-1_uptime.svg" alt="Uptime"></div>
+                    <div class="graph-box"><div class="graph-title">Churn (Last 7 days)</div><img src="delightd-delightd-1_churn.svg" alt="Churn"></div>
+                </div></li></ul></div><div class="repo-card"><h3>🐳 <a href="https://github.com/janearc/la-domestique" style="color: #58a6ff; text-decoration: none;">la-domestique</a></h3><p class="meta-text"><strong>Git:</strong> branch <code>main</code> [dirty] &middot; 125 total commits &middot; <strong>0 PRs landed in last 7 days</strong></p><ul class="service-list"><li class="service-item"><strong>la-domestique-geometry-engine-1</strong> <code style="margin-left: 8px; color: #8b949e;">la-domestique-geometry-engine</code> <span class="status-badge">Up 6 minutes (healthy)</span>
+                <div class="graphs">
+                    <div class="graph-box"><div class="graph-title">Uptime (Last 7 days)</div><img src="la-domestique-geometry-engine-1_uptime.svg" alt="Uptime"></div>
+                    <div class="graph-box"><div class="graph-title">Churn (Last 7 days)</div><img src="la-domestique-geometry-engine-1_churn.svg" alt="Churn"></div>
+                </div></li><li class="service-item"><strong>la-domestique-web-1</strong> <code style="margin-left: 8px; color: #8b949e;">la-domestique-web</code> <span class="status-badge">Up 49 minutes</span>
+                <div class="graphs">
+                    <div class="graph-box"><div class="graph-title">Uptime (Last 7 days)</div><img src="la-domestique-web-1_uptime.svg" alt="Uptime"></div>
+                    <div class="graph-box"><div class="graph-title">Churn (Last 7 days)</div><img src="la-domestique-web-1_churn.svg" alt="Churn"></div>
+                </div></li></ul></div><div class="repo-card"><h3>🐳 <a href="https://github.com/pewdiepie-archdaemon/odysseus" style="color: #58a6ff; text-decoration: none;">odysseus</a></h3><p class="meta-text"><strong>Git:</strong> branch <code>dev</code> [dirty] &middot; 1150 total commits &middot; <strong>9 PRs landed in last 7 days</strong> &middot; 30 open PRs</p><ul class="service-list"><li class="service-item"><strong>odysseus-odysseus-1</strong> <code style="margin-left: 8px; color: #8b949e;">odysseus-odysseus</code> <span class="status-badge">Up 3 hours</span>
+                <div class="graphs">
+                    <div class="graph-box"><div class="graph-title">Uptime (Last 7 days)</div><img src="odysseus-odysseus-1_uptime.svg" alt="Uptime"></div>
+                    <div class="graph-box"><div class="graph-title">Churn (Last 7 days)</div><img src="odysseus-odysseus-1_churn.svg" alt="Churn"></div>
+                </div></li><li class="service-item"><strong>odysseus-searxng-1</strong> <code style="margin-left: 8px; color: #8b949e;">searxng/searxng:2026.5.31-7159b8aed</code> <span class="status-badge">Up 3 hours (healthy)</span>
+                <div class="graphs">
+                    <div class="graph-box"><div class="graph-title">Uptime (Last 7 days)</div><img src="odysseus-searxng-1_uptime.svg" alt="Uptime"></div>
+                    <div class="graph-box"><div class="graph-title">Churn (Last 7 days)</div><img src="odysseus-searxng-1_churn.svg" alt="Churn"></div>
+                </div></li><li class="service-item"><strong>odysseus-chromadb-1</strong> <code style="margin-left: 8px; color: #8b949e;">chromadb/chroma:latest</code> <span class="status-badge">Up 3 hours</span>
+                <div class="graphs">
+                    <div class="graph-box"><div class="graph-title">Uptime (Last 7 days)</div><img src="odysseus-chromadb-1_uptime.svg" alt="Uptime"></div>
+                    <div class="graph-box"><div class="graph-title">Churn (Last 7 days)</div><img src="odysseus-chromadb-1_churn.svg" alt="Churn"></div>
+                </div></li><li class="service-item"><strong>odysseus-ntfy-1</strong> <code style="margin-left: 8px; color: #8b949e;">binwiederhier/ntfy</code> <span class="status-badge">Up 3 hours</span>
+                <div class="graphs">
+                    <div class="graph-box"><div class="graph-title">Uptime (Last 7 days)</div><img src="odysseus-ntfy-1_uptime.svg" alt="Uptime"></div>
+                    <div class="graph-box"><div class="graph-title">Churn (Last 7 days)</div><img src="odysseus-ntfy-1_churn.svg" alt="Churn"></div>
+                </div></li></ul></div><div class="repo-card"><h3>🐳 transparent</h3><p class="meta-text"><strong>Git:</strong> branch <code>fix/dashboard-metrics</code> &middot; 26 total commits &middot; <strong>1 PRs landed in last 7 days</strong></p><ul class="service-list"><li class="service-item"><strong>transparent-transparent-1</strong> <code style="margin-left: 8px; color: #8b949e;">transparent-transparent</code> <span class="status-badge">Up 15 seconds</span>
+                <div class="graphs">
+                    <div class="graph-box"><div class="graph-title">Uptime (Last 7 days)</div><img src="transparent-transparent-1_uptime.svg" alt="Uptime"></div>
+                    <div class="graph-box"><div class="graph-title">Churn (Last 7 days)</div><img src="transparent-transparent-1_churn.svg" alt="Churn"></div>
+                </div></li></ul></div></div></body></html>

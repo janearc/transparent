@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -77,7 +78,6 @@ func main() {
 		now := time.Now()
 		elapsed := now.Sub(lastTick)
 
-		// Determine if laptop was asleep (time jumped significantly)
 		if !lastTick.IsZero() && elapsed > pollInterval+5*time.Minute {
 			slog.Info("detected sleep period", "elapsed", elapsed)
 			store.AddEvent(state.StatusAsleep, fmt.Sprintf("Asleep for %s", elapsed.Round(time.Minute)))
@@ -89,21 +89,33 @@ func main() {
 		if networkOk {
 			status = state.StatusOnline
 		}
-
 		slog.Info("network check completed", "status", status)
 		store.AddEvent(status, "")
+
+		// Record service metrics historically
+		metricsData := metrics.Collect(ctx, "/work")
+		for _, repo := range metricsData.Repos {
+			for _, svc := range repo.Services {
+				up := !strings.HasPrefix(svc.Status, "Exited") && !strings.HasPrefix(svc.Status, "Created")
+				store.RecordServiceMetrics(svc.Name, up, repo.Commits)
+			}
+		}
 	}
 
 	doCommit := func() {
 		events := store.GetEvents()
 		metricsData := metrics.Collect(ctx, "/work")
-		md := reporter.GenerateMarkdown(events, metricsData)
-		slog.Info("generating markdown and committing")
-		err := reporter.CommitAndPush(ctx, *repoPath, *repoPath+"/uptime.md", md)
+		err := reporter.GenerateDashboard(*repoPath+"/REPORT", events, metricsData, store)
 		if err != nil {
-			slog.Error("failed to commit and push", "error", err)
+			slog.Error("failed to generate dashboard", "error", err)
+			return
+		}
+		slog.Info("generating markdown, html, xml, json and committing locally")
+		err = reporter.CommitDashboard(ctx, *repoPath)
+		if err != nil {
+			slog.Error("failed to commit dashboard", "error", err)
 		} else {
-			slog.Info("commit and push attempt finished")
+			slog.Info("dashboard committed locally")
 		}
 	}
 
