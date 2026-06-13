@@ -14,7 +14,7 @@
         <service>
           <name>delightd-delightd-1</name>
           <image>delightd-delightd</image>
-          <status>Up 40 minutes</status>
+          <status>Up 51 minutes</status>
         </service>
       </services>
     </repo>
@@ -29,9 +29,14 @@
       <openPRs>-1</openPRs>
       <services>
         <service>
+          <name>la-domestique-geometry-engine-1</name>
+          <image>la-domestique-geometry-engine</image>
+          <status>Up 4 minutes (healthy)</status>
+        </service>
+        <service>
           <name>la-domestique-web-1</name>
           <image>la-domestique-web</image>
-          <status>Up 36 minutes</status>
+          <status>Up 47 minutes</status>
         </service>
       </services>
     </repo>
@@ -71,8 +76,8 @@
       <name>transparent</name>
       <remoteURL></remoteURL>
       <branch>fix/dashboard-metrics</branch>
-      <dirty>true</dirty>
-      <commits>21</commits>
+      <dirty>false</dirty>
+      <commits>24</commits>
       <recentPRs>1</recentPRs>
       <unpushed>0</unpushed>
       <openPRs>-1</openPRs>
@@ -80,7 +85,7 @@
         <service>
           <name>transparent-transparent-1</name>
           <image>transparent-transparent</image>
-          <status>Up 15 seconds</status>
+          <status>Up 14 seconds</status>
         </service>
       </services>
     </repo>
