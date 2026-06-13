@@ -115,7 +115,7 @@ func GenerateDashboard(reportDir string, events []state.Event, metricsData metri
 			repoTitle = fmt.Sprintf("### 🐳 [%s](%s)", repo.Name, repo.RemoteURL)
 			htmlTitle = fmt.Sprintf(`<h3>🐳 <a href="%s" style="color: #58a6ff; text-decoration: none;">%s</a></h3>`, repo.RemoteURL, repo.Name)
 		}
-		
+
 		mdBuf.WriteString(repoTitle + "\n")
 		htmlBuf.WriteString(fmt.Sprintf(`<div class="repo-card">%s`, htmlTitle))
 
@@ -278,10 +278,10 @@ func makeUptimeSVG(history []state.ServiceSnapshot) string {
 
 func makeChurnSVG(timestamps []time.Time) string {
 	colors := make([]string, 168)
-	
+
 	now := time.Now()
 	buckets := make([]int, 168)
-	
+
 	for _, t := range timestamps {
 		hoursAgo := int(now.Sub(t).Hours())
 		if hoursAgo >= 0 && hoursAgo < 168 {
@@ -289,10 +289,10 @@ func makeChurnSVG(timestamps []time.Time) string {
 			buckets[idx]++
 		}
 	}
-	
+
 	for i := 0; i < 168; i++ {
 		totalChurn := buckets[i]
-		
+
 		c := "#ebedf0"
 		if totalChurn == 1 || totalChurn == 2 {
 			c = "#9be9a8"

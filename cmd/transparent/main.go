@@ -11,11 +11,11 @@ import (
 	"strings"
 	"syscall"
 	"time"
-
 	"transparent/pkg/checker"
 	"transparent/pkg/metrics"
 	"transparent/pkg/reporter"
 	"transparent/pkg/state"
+	"transparent/pkg/telemetry"
 )
 
 func main() {
@@ -38,12 +38,29 @@ func main() {
 	pollInterval := 15 * time.Minute
 	commitInterval := 1 * time.Hour
 
+	forceEval := make(chan struct{})
+
 	// Initialize HTTP server for health and metrics
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, `{"status":"ok"}`)
+	})
+	mux.HandleFunc("GET /metrics", telemetry.Handler())
+	mux.HandleFunc("GET /dashboard", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/markdown")
+		http.ServeFile(w, r, *repoPath+"/REPORT/uptime.md")
+	})
+	mux.HandleFunc("POST /evaluate", func(w http.ResponseWriter, r *http.Request) {
+		select {
+		case forceEval <- struct{}{}:
+			w.WriteHeader(http.StatusAccepted)
+			fmt.Fprintf(w, `{"status":"evaluation triggered"}`)
+		default:
+			w.WriteHeader(http.StatusTooManyRequests)
+			fmt.Fprintf(w, `{"status":"evaluation already in progress"}`)
+		}
 	})
 	server := &http.Server{
 		Addr:    ":8080",
@@ -75,6 +92,7 @@ func main() {
 	slog.Info("transparent daemon started", "pollInterval", pollInterval, "commitInterval", commitInterval, "immediate", *immediate)
 
 	doPoll := func() {
+		telemetry.Inc("transparent_polls_total")
 		now := time.Now()
 		elapsed := now.Sub(lastTick)
 
@@ -103,6 +121,7 @@ func main() {
 	}
 
 	doCommit := func() {
+		telemetry.Inc("transparent_commits_total")
 		events := store.GetEvents()
 		metricsData := metrics.Collect(ctx, "/work")
 		err := reporter.GenerateDashboard(*repoPath+"/REPORT", events, metricsData, store)
@@ -141,6 +160,10 @@ func main() {
 		case <-pollTicker.C:
 			doPoll()
 		case <-commitTicker.C:
+			doCommit()
+		case <-forceEval:
+			slog.Info("executing forced evaluation via control port")
+			doPoll()
 			doCommit()
 		}
 	}
