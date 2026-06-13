@@ -345,7 +345,7 @@ func CommitDashboard(ctx context.Context, repoPath string) error {
 		headCommit, err := r.CommitObject(head.Hash())
 		if err == nil &&
 			headCommit.Author.Email == daemonAuthorEmail &&
-			headCommit.Message == daemonCommitMsg &&
+			strings.TrimSpace(headCommit.Message) == daemonCommitMsg &&
 			len(headCommit.ParentHashes) == 1 {
 
 			err = w.Reset(&git.ResetOptions{
