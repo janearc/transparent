@@ -15,8 +15,13 @@ services:
       - "127.0.0.1:8081:8080"
     expose:
       - "8080"
-    command: ["./transparent", "-repo", "/data", "-immediate"]
+    command: ["./transparent", "-repo", "/work", "-immediate"]
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.transparent.rule=Host(`transparent.localhost`)"
       - "traefik.http.services.transparent.loadbalancer.server.port=8080"
+    networks:
+      - dev-fleet
+networks:
+  dev-fleet:
+    external: true
