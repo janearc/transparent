@@ -9,26 +9,26 @@
       <commits>7</commits>
       <recentPRs>0</recentPRs>
       <unpushed>0</unpushed>
-      <openPRs>-1</openPRs>
+      <openPRs>0</openPRs>
       <services>
         <service>
           <name>comfyui-sidecar-1</name>
           <image>comfyui-sidecar</image>
-          <status>Up 10 hours</status>
+          <status>Exited (2) 51 minutes ago</status>
         </service>
         <service>
           <name>comfyui-comfyui-1</name>
           <image>comfyui-comfyui</image>
-          <status>Up 10 hours</status>
+          <status>Exited (137) 51 minutes ago</status>
         </service>
       </services>
     </repo>
     <repo>
       <name>delightd</name>
       <remoteURL></remoteURL>
-      <branch>feat/branding</branch>
+      <branch>feat/active-control-plane</branch>
       <dirty>true</dirty>
-      <commits>8</commits>
+      <commits>10</commits>
       <recentPRs>1</recentPRs>
       <unpushed>0</unpushed>
       <openPRs>-1</openPRs>
@@ -36,7 +36,7 @@
         <service>
           <name>delightd-delightd-1</name>
           <image>delightd-delightd</image>
-          <status>Up 13 hours</status>
+          <status>Up 17 minutes</status>
         </service>
       </services>
     </repo>
@@ -53,12 +53,12 @@
         <service>
           <name>la-domestique-web-1</name>
           <image>la-domestique-web</image>
-          <status>Up 16 hours</status>
+          <status>Exited (137) 51 minutes ago</status>
         </service>
         <service>
           <name>la-domestique-geometry-engine-1</name>
           <image>la-domestique-geometry-engine</image>
-          <status>Up 17 hours (healthy)</status>
+          <status>Exited (137) 51 minutes ago</status>
         </service>
       </services>
     </repo>
@@ -70,27 +70,27 @@
       <commits>1150</commits>
       <recentPRs>9</recentPRs>
       <unpushed>0</unpushed>
-      <openPRs>-1</openPRs>
+      <openPRs>30</openPRs>
       <services>
         <service>
           <name>odysseus-odysseus-1</name>
           <image>odysseus-odysseus</image>
-          <status>Up 19 hours</status>
+          <status>Exited (137) 51 minutes ago</status>
         </service>
         <service>
           <name>odysseus-searxng-1</name>
           <image>searxng/searxng:2026.5.31-7159b8aed</image>
-          <status>Up 19 hours (healthy)</status>
+          <status>Exited (137) 51 minutes ago</status>
         </service>
         <service>
           <name>odysseus-chromadb-1</name>
           <image>chromadb/chroma:latest</image>
-          <status>Up 19 hours</status>
+          <status>Exited (0) 51 minutes ago</status>
         </service>
         <service>
           <name>odysseus-ntfy-1</name>
           <image>binwiederhier/ntfy</image>
-          <status>Up 19 hours</status>
+          <status>Exited (2) 51 minutes ago</status>
         </service>
       </services>
     </repo>
@@ -99,7 +99,7 @@
       <remoteURL></remoteURL>
       <branch>main</branch>
       <dirty>true</dirty>
-      <commits>39</commits>
+      <commits>42</commits>
       <recentPRs>4</recentPRs>
       <unpushed>0</unpushed>
       <openPRs>-1</openPRs>
@@ -107,7 +107,7 @@
         <service>
           <name>transparent-transparent-1</name>
           <image>transparent-transparent</image>
-          <status>Up 13 hours</status>
+          <status>Up 13 seconds</status>
         </service>
       </services>
     </repo>
