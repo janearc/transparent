@@ -34,16 +34,42 @@ type RepoMetrics struct {
 	CommitTimestamps []time.Time
 }
 
-type DashboardData struct {
-	Repos []RepoMetrics
+type LLMSource struct {
+	Provider string   `json:"provider"`
+	URL      string   `json:"url"`
+	Models   []string `json:"models"`
+	Healthy  bool     `json:"healthy"`
 }
 
-// Collect gathers running docker containers and uses native go-git to fetch git repository statuses.
+type DelightdDiscovery struct {
+	Status  string      `json:"status"`
+	Sources []LLMSource `json:"sources"`
+}
+
+type DashboardData struct {
+	Repos      []RepoMetrics
+	LLMSources []LLMSource
+}
+
+// Collect gathers running docker containers, local LLMs from delightd, and native go-git repo statuses.
 func Collect(ctx context.Context, workDir string) DashboardData {
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 
 	var data DashboardData
+
+	// Poll delightd for LLM discovery
+	req, _ := http.NewRequestWithContext(ctx, "GET", "http://localhost:8088/discovery/llms", nil)
+	resp, err := http.DefaultClient.Do(req)
+	if err == nil {
+		defer resp.Body.Close()
+		if resp.StatusCode == http.StatusOK {
+			var d DelightdDiscovery
+			if err := json.NewDecoder(resp.Body).Decode(&d); err == nil {
+				data.LLMSources = d.Sources
+			}
+		}
+	}
 
 	cmd := exec.CommandContext(ctx, "docker", "ps", "-a", "--format", "{{.Names}}|{{.Image}}|{{.Status}}")
 	out, err := cmd.Output()

@@ -180,6 +180,34 @@ func GenerateDashboard(reportDir string, events []state.Event, metricsData metri
 		htmlBuf.WriteString("</ul></div>")
 	}
 
+	if len(metricsData.LLMSources) > 0 {
+		mdBuf.WriteString("## Discovered Local LLMs\n\n")
+		htmlBuf.WriteString("<h2>Discovered Local LLMs</h2>")
+		htmlBuf.WriteString(`<ul class="service-list">`)
+
+		for _, llm := range metricsData.LLMSources {
+			mdBuf.WriteString(fmt.Sprintf("### 🧠 `%s` (Port %s)\n", llm.Provider, llm.URL))
+			htmlTitle := fmt.Sprintf(`<h3>🧠 %s <span style="font-size: 14px; color: #8b949e;">(%s)</span></h3>`, llm.Provider, llm.URL)
+			
+			status := "Healthy"
+			badgeClass := "status-badge"
+			if !llm.Healthy {
+				status = "Unhealthy"
+				badgeClass += " down"
+			}
+
+			mdBuf.WriteString(fmt.Sprintf("* **Status:** %s\n", status))
+			mdBuf.WriteString(fmt.Sprintf("* **Models Loaded:** %s\n\n", strings.Join(llm.Models, ", ")))
+
+			htmlBuf.WriteString(fmt.Sprintf(`<li class="service-item">%s`, htmlTitle))
+			htmlBuf.WriteString(fmt.Sprintf(`<p class="meta-text"><strong>Status:</strong> <span class="%s">%s</span></p>`, badgeClass, status))
+			htmlBuf.WriteString(fmt.Sprintf(`<p class="meta-text"><strong>Models Loaded:</strong> <code>%s</code></p>`, strings.Join(llm.Models, ", ")))
+			htmlBuf.WriteString("</li>")
+		}
+		
+		htmlBuf.WriteString("</ul>")
+	}
+
 	htmlBuf.WriteString("</div></body></html>")
 
 	// Write Markdown
